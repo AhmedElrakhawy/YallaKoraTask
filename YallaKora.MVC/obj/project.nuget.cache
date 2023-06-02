@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "k8o5vJBddVTdA+S93oPKKEJmvmLTpqjvcWjDfB8+oPwvFDTUVedgJA3DdEOxSm/ctyYJBLt9/Ojo0nMiTyC0xg==",
+  "success": true,
+  "projectFilePath": "D:\\My work\\Projects\\Solution1\\YallaKora.MVC\\YallaKora.MVC.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\SOFT\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,138 @@
+﻿@using YallaKora.Web.VM
+@model TournamentsTableVM
+
+<div>
+
+    <br />
+    <div class="col-lg-12" id="tableContainer">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Tournament Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Tournament Video
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Tournaments != null && Model.Tournaments.Count > 0)
+                {
+                    foreach (var tour in Model.Tournaments)
+                    {
+                        <tr>
+                            <td>
+                                @tour.TournamentName
+                            </td>
+                            <td>
+                                @tour.Description
+                            </td>
+                            <td>
+                                @tour.TournamentVideo
+                            </td>
+                            <td>
+                                <button type="button" class="editbtn btn btn-primary" data-ID="@tour.TournamentId" data-toggle="modal" data-target="#FormModal">Edit</button>
+                                <button type="button" class="deletebtn btn btn-danger" data-ID="@tour.TournamentId" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center" colspan="7">
+                            No Results Found..
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model.Pager != null & Model.Pager.TotalPages > 0)
+        {
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    @if (Model.Pager.CurrentPage == Model.Pager.StartPage)
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" data-ID="#">Previous</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Index","Tournament" ,new {PageNum = Model.Pager.CurrentPage -1 , Search = Model.Search.SearchName})">Previous</a>
+                        </li>
+                    }
+                    @for (int Page = Model.Pager.StartPage; Page < Model.Pager.EndPage + 1; Page++)
+                    {
+                        var active = Page == Model.Pager.CurrentPage ? "active" : string.Empty;
+                        <li class="page-item @active"><a class="page-link" href="@Url.Action("Index","Tournament" ,new { PageNum = Page , Search = Model.Search.SearchName})">@Page</a></li>
+                    }
+                    @if (Model.Pager.CurrentPage == Model.Pager.EndPage)
+                    {
+                        <li class="page-item disabled"><a class="page-link">Next</a></li>
+
+                    }
+                    else
+                    {
+                        <li class="page-item"><a href="@Url.Action("Index","Tournament" ,new { PageNum = Model.Pager.CurrentPage +1, Search = Model.Search.SearchName })" class="page-link">Next</a></li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
+<script>
+    $(".SearchTeam").click(function () {
+        debugger;
+        $.ajax({
+            type: "Get",
+            url: "@Url.Action("Index", "Tournament")",
+            data: {
+                Search: $("#SearchBox").val(),
+            }
+        }).done(function (response) {
+            $("#tableContainer").html(response);
+        }).fail(function (XMLHttpRequest, testStatus, erorrThrown) {
+            alert("FAIL");
+        });
+    });
+    $("#ResetBtn").click(function () {
+        debugger;
+        $.ajax({
+            type: "Get",
+            url: "@Url.Action("Index", "Tournament")"
+        }).done(function (response) {
+            $("#tableContainer").html(response);
+        }).fail(function (XMLHttpRequest, testStatus, erorrThrown) {
+            alert("FAIL");
+        });
+    });
+    $(".editbtn").click(function () {
+        $.ajax({
+            type: "Get",
+            url: "@Url.Action("Edit", "Tournament")",
+            data: {
+                ID: $(this).attr('data-ID')
+            }
+        }).done(function (response) {
+            $("#actionContainer").html(response);
+            $("#FormModal").modal('toggle');
+        }).fail(function (XMLHttpRequest, testStatus, erorrThrown) {
+            alert("FAIL");
+        })
+    });
+    $('.deletebtn').click(function () {
+        $("#deleteModal").modal('toggle');
+        $('#mDeletebtn').attr("data-recordID", $(this).attr('data-ID'));
+    })
+</script>
+

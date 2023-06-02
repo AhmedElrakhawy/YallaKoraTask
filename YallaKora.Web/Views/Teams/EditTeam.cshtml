@@ -1,0 +1,133 @@
+﻿@using YallaKora.Web.VM
+@model CreateTeamVM
+
+<div class="modal-header">
+    <h5 class="modal-title">Edit Auction</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form method="post" id="editForm">
+    <div class="modal-body">
+        <input type="hidden" name="TeamId" value="@Model.TeamId" />
+        <div class="form-group">
+            <label for="TeamName">
+                Team Name
+            </label>
+            <input class="form-control" name="TeamName" value="@Model.TeamName" />
+        </div>
+
+        <div class="form-group">
+            <label for="Tournament">
+                Tournament
+            </label>
+            <select class="form-control" name="CategoryID">
+                @foreach (var tour in Model.Tournaments)
+                {
+                    var selected = tour.TournamentId == Model.TournamentId ? "selected" : string.Empty;
+                    if (string.IsNullOrEmpty(selected))
+                    {
+                        <option value="@tour.TournamentId">@tour.TournamentName</option>
+                    }
+                    else
+                    {
+                        <option selected value="@tour.TournamentId">@tour.TournamentName</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="Description">
+                Description
+            </label>
+            <input class="form-control" name="Description" value="@Model.Description" />
+        </div>
+
+        <div class="form-group">
+            <label for="WebSiteURL">
+                WebSite URL
+            </label>
+            <input class="form-control" name="WebSiteURL" value="@Model.WebSiteURL" />
+        </div>
+
+        <div class="form-group">
+            <label for="FoundationDate">
+                Foundation Date
+            </label>
+            <input class="form-control" id="datepicker1" name="StartingTime" value="@Model.FoundationDate" />
+        </div>
+        <div class="form-group">
+            <label for="AuctionPictures">
+                AuctionPictures
+            </label>
+            <input id="TeamPicture" type="file"  class="form-control" />
+            <div id="PicturesArea" class="mt-2">
+                <input type="hidden" class="Imageurl" value="@Model.Logo" />
+                <img class="image img-thumbnail" src="@Model.Logo" style="width:200px;height:200px;" />
+            </div>
+            <input type="hidden" name="Logo" id="PictureIDs"  value=""/>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id="saveBtn">Save</button>
+    </div>
+</form>
+
+
+<script>
+    $('#datepicker1').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+    $('#datepicker2').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+    RemoveImagesOnClick();
+    $("#saveBtn").click(function () {
+        debugger;
+        var DataIDs = [];
+        $("#PicturesArea .image").each(function () {
+            var ImageID = $(this).attr("data-id");
+            DataIDs.push(ImageID);
+        });
+        $("#PictureIDs").val(DataIDs.join());
+        $.ajax({
+            type: "Post",
+            url: "@Url.Action("Edit","Auctions")",
+            data: $("#editForm").serialize()
+        }).done(function (response) {
+            $("#FormModal").modal('toggle');
+            $("#tableContainer").html(response);
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+    $("#TeamPicture").change(function () {
+        debugger;
+        var Pictures = this;
+        var PicData = new FormData();
+        var totalfile = Pictures.files.length;
+        for (var i = 0; i < totalfile; i++) {
+            PicData.append("Picture", Pictures.files[i]);
+        }
+        $.ajax({
+            type: "Post",
+            url: "@Url.Action("UploadPictures","Shared")",
+            data: PicData,
+            dataType: "json",
+            contentType: false,
+            processData: false
+        }).done(function (responses) {
+            debugger;
+            var Total = responses.length;
+            for (var i = 0; i < Total; i++) {
+                var picResponse = responses[i];
+                AttachNewImage(picResponse);
+            }
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Fail");
+        });
+    });
+</script>

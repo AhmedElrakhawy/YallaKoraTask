@@ -35,9 +35,9 @@ namespace YallaKora.Web.Repository
             //}
 
             
-
-            Request.Content = new StringContent(
+            var obj = new StringContent(
                   JsonConvert.SerializeObject(search), Encoding.UTF8, "application/json");
+            Request.Content = obj;
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var APIToken = _Config.GetSection("AppToken:Token").Value;
             Request.Headers.Add("Api-Key-Auth", APIToken);

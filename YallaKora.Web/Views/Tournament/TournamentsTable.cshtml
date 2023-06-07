@@ -40,6 +40,8 @@
                             <td>
                                 <button type="button" class="editbtn btn btn-primary" data-ID="@tour.TournamentId" data-toggle="modal" data-target="#FormModal">Edit</button>
                                 <button type="button" class="deletebtn btn btn-danger" data-ID="@tour.TournamentId" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                <button type="button" class="Assignbtn btn btn-secondary" data-ID="@tour.TournamentId" data-toggle="modal" data-target="#FormModal">Assign Teams</button>
+                                <button type="button" class="AddGallary btn btn-success" data-ID="@tour.TournamentId" data-toggle="modal" data-target="#FormModal">Add Gallary</button>
                             </td>
                         </tr>
                     }
@@ -74,7 +76,7 @@
                     @for (int Page = Model.Pager.StartPage; Page < Model.Pager.EndPage + 1; Page++)
                     {
                         var active = Page == Model.Pager.CurrentPage ? "active" : string.Empty;
-                        <li class="page-item @active"><a class="page-link" href="@Url.Action("Index","Tournament" ,new { PageNum = Page , Search = Model.Search.SearchName})">@Page</a></li>
+                        <li class="page-item @active"><a value="@Page" class="page-link" href="@Url.Action("Index","Tournament" ,new { PageNum = Page , Search = Model.Search.SearchName})">@Page</a></li>
                     }
                     @if (Model.Pager.CurrentPage == Model.Pager.EndPage)
                     {
@@ -98,6 +100,7 @@
             url: "@Url.Action("Index", "Tournament")",
             data: {
                 Search: $("#SearchBox").val(),
+                PageNum: document.getElementsByClassName("page-item active")[0].firstChild.innerHTML
             }
         }).done(function (response) {
             $("#tableContainer").html(response);
@@ -119,13 +122,42 @@
     $(".editbtn").click(function () {
         $.ajax({
             type: "Get",
-            url: "@Url.Action("Edit", "Tournament")",
+            url: "@Url.Action("EditTournament", "Tournament")",
             data: {
                 ID: $(this).attr('data-ID')
             }
         }).done(function (response) {
             $("#actionContainer").html(response);
-            $("#FormModal").modal('toggle');
+            //$("#FormModal").modal('toggle');
+        }).fail(function (XMLHttpRequest, testStatus, erorrThrown) {
+            alert("FAIL");
+        })
+    });
+
+    $(".AddGallary").click(function () {
+        $.ajax({
+            type: "Get",
+            url: "@Url.Action("AddTournamentGalary", "Tournament")",
+            data: {
+                TournamentId: $(this).attr('data-ID')
+            }
+        }).done(function (response) {
+            $("#actionContainer").html(response);
+            //$("#FormModal").modal('toggle');
+        }).fail(function (XMLHttpRequest, testStatus, erorrThrown) {
+            alert("FAIL");
+        })
+    });
+    $(".Assignbtn").click(function () {
+        $.ajax({
+            type: "Get",
+            url: "@Url.Action("AssignTeams", "Tournament")",
+            data: {
+                ID: $(this).attr('data-ID')
+            }
+        }).done(function (response) {
+            $("#actionContainer").html(response);
+            //$("#FormModal").modal('toggle');
         }).fail(function (XMLHttpRequest, testStatus, erorrThrown) {
             alert("FAIL");
         })

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TgpyCPkFU5l8ykW/88uBwqXBrIQSsc1I7hp1X+907CtNeIIleS4kRlv8T0Xa0iCKPQzcxSi2OWQIO/q/5p235g==",
+  "dgSpecHash": "IhNl7NmqVvqiW5dPhEALJQw+x88r0hVi/gNIE/jz+WABx7CxxhQZIMTDxUGaWvTJ++1/UGS/rouIigYi6x51nQ==",
   "success": true,
   "projectFilePath": "D:\\My work\\Projects\\Solution1\\YallaKora.API\\YallaKora.API.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,7 @@
     "C:\\Users\\SOFT\\.nuget\\packages\\automapper\\10.0.0\\automapper.10.0.0.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\7.0.0\\automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
-    "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\5.0.15\\microsoft.aspnetcore.authentication.jwtbearer.5.0.15.nupkg.sha512",
+    "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.24\\microsoft.aspnetcore.authentication.jwtbearer.3.1.24.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.0.1\\microsoft.data.sqlclient.sni.runtime.2.0.1.nupkg.sha512",
@@ -33,8 +33,8 @@
     "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.identitymodel.abstractions\\6.30.1\\microsoft.identitymodel.abstractions.6.30.1.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.30.1\\microsoft.identitymodel.jsonwebtokens.6.30.1.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.identitymodel.logging\\6.30.1\\microsoft.identitymodel.logging.6.30.1.nupkg.sha512",
-    "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.identitymodel.protocols\\6.7.1\\microsoft.identitymodel.protocols.6.7.1.nupkg.sha512",
-    "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.7.1\\microsoft.identitymodel.protocols.openidconnect.6.7.1.nupkg.sha512",
+    "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.identitymodel.protocols\\5.6.0\\microsoft.identitymodel.protocols.5.6.0.nupkg.sha512",
+    "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\5.6.0\\microsoft.identitymodel.protocols.openidconnect.5.6.0.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.30.1\\microsoft.identitymodel.tokens.6.30.1.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\SOFT\\.nuget\\packages\\microsoft.netcore.targets\\1.1.3\\microsoft.netcore.targets.1.1.3.nupkg.sha512",

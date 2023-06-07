@@ -20,6 +20,8 @@ namespace YallaKora.API.Repository.IRepository
         bool CreateTeam(Team team);
         bool UpdateTeam(Team team);
         bool DeleteTeam(Team team);
+        List<Team> GetTeamsByTournamentId(int Id);
+        List<Team> GetAvailableTeamsBasedOnTournamentId(int Id);
         bool Save();
     }
 }

@@ -12,8 +12,9 @@ namespace YallaKora.API.Mapper
     {
         public Mapping()
         {
-            CreateMap<Team, TeamDto>().ReverseMap();
+            CreateMap<Team, TeamDto>().ForMember(x => x.TournamentsTeamsDtos, m => m.MapFrom(a => a.TournamentsTeams)).ReverseMap();
             CreateMap<Tournament, TournamentDto>().ReverseMap();
+            CreateMap<TournamentsTeam, TournamentsTeamsDto>().ReverseMap();
         }
     }
 }

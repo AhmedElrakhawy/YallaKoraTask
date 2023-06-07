@@ -1,0 +1,97 @@
+﻿@using YallaKora.Web.VM
+@model AssignTeamVM
+
+
+    <div class="modal-header">
+        <h5 class="modal-title">Assign Teams</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<div class="container modal-body">
+    <div class="row">
+        <form id="TeamForm">
+            <input id="TourId" name="TournamentId" hidden value="@Model.TournamentId" />
+            <div class="col-6">
+                <select  name="TeamId" class="form-control">
+                    @foreach (var team in Model.AvailableTeams)
+                    {
+                        <option onclick="AddTeam(this)" value="@team.TeamId">@team.TeamName</option>
+                    }
+                </select>
+            </div>
+            <div class="col-4">
+                <button id="AddTeam" type="button" class="btn btn-primary">Add</button>
+            </div>
+        </form> 
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="col-lg-12" id="tableContainer">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Team Name
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.AssignedTeams != null && Model.AssignedTeams.Count > 0)
+                {
+                    foreach (var team in Model.AssignedTeams)
+                    {
+                        <tr>
+                            <td>
+                                @team.TeamName
+                            </td>
+                            <td>
+                                <button type="button" class="deletetourTeam btn btn-danger" data-ID="@team.TeamId" >Delete</button>
+                                <input id="teamfield" hidden value="@team.TeamId" name="TeamId"/>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center" colspan="7">
+                            No Results Found..
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+<script>
+    $("#AddTeam").click(function () {
+        debugger;
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("AssignTeams", "Tournament")',
+            data: $("#TeamForm").serialize()
+        }).done(function (response) {
+            $("#actionContainer").html(response);
+        })
+    });
+
+    $(".deletetourTeam").click(function () {
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("DeleteAssignTeam", "Tournament")',
+            data: {
+                TournamentId: $("#TourId").val(),
+                TeamId: $("#teamfield").val()
+            }
+        }).done(function (response) {
+            $("#actionContainer").html(response);
+        })
+    })
+   
+</script>

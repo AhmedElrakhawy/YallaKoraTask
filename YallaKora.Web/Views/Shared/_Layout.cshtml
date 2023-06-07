@@ -14,7 +14,7 @@
     <link href="~/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
 
-    <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" defer="defer"></script>
+    <link rel="stylesheet" href="~/dist/css/paraia_multi_select.min.css">
 </head>
 <body>
     <div class="d-flex" id="wrapper">
@@ -26,26 +26,18 @@
                 <a class="list-group-item list-group-item-action" href="@Url.Action("Index","Home")">
                     <i class="mr-1 fas fa-home"></i> Home
                 </a>
-                <a class="list-group-item list-group-item-action" href="@Url.Action("Index","Teams")">
-                    <i class="fas fa-user-shield"></i> Teams
-                </a>
-                <a class="list-group-item list-group-item-action" href="@Url.Action("Index","Tournament")">
-                    <i class="mr-1 fas fa-sitemap"></i> Tournament
-                </a>
-                <a class="list-group-item list-group-item-action" href="@Url.Action("Index","Auctions")">
-                    <i class="mr-1 fab fa-shirtsinbulk"></i> Auctions
-                </a>
-                <a class="list-group-item list-group-item-action" href="@Url.Action("AllBids","Bids")">
-                    <i class="mr-1 fas fa-business-time"></i> Bids
-                </a>
-                <a class="list-group-item list-group-item-action" href="@Url.Action("Users","Dashboard")">
-                    <i class="bi bi-people"></i> Users
-                </a>
-                <a class="list-group-item list-group-item-action" href="@Url.Action("Roles","Dashboard")">
-                    <i class="bi bi-bezier"></i> Roles
-                </a>
-                <a class="list-group-item list-group-item-action" href="@Url.Action("Comments","Dashboard")">
-                    <i class="bi bi-blockquote-left"></i> Comments
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="list-group-item list-group-item-action" href="@Url.Action("Index","Teams")">
+                        <i class="fas fa-user-shield"></i> Teams
+                    </a>
+                    <a class="list-group-item list-group-item-action" href="@Url.Action("Index","Tournament")">
+                        <i class="mr-1 fas fa-sitemap"></i> Tournament
+                    </a>
+                }
+                <a class="list-group-item list-group-item-action" href="@Url.Action("Index","Main")">
+                    <i class="mr-1 fab fa-shirtsinbulk"></i> Main
                 </a>
             </div>
         </div>
@@ -66,16 +58,18 @@
             </div>
         </div>
     </div>
+    <form id="LogoffForm" method="post" action="@Url.Action("Logout","Home")">
+        @Html.AntiForgeryToken()
+    </form>
 
-
-    <script src="~/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/bootstrap/Content/vendor/jquery/scripts.js"></script>
     <script src="~/lib/bootstrap/Content/vendor/jquery/jquery.min.js"></script>
     <script src="~/lib/bootstrap/Content/vendor/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/Content/vendor/jquery/jquery.js"></script>
+    <script src="~/twitter-bootstrap/js/bootstrap.js"></script>
     <script src="~/lib/bootstrap/Content/vendor/bootstrap/js/bootstrap.js"></script>
     <script src="~/lib/bootstrap/Content/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-    <script src="~/lib/bootstrap/Content/vendor/jquery/jquery.js"></script>
     <link href="~/lib/bootstrap/Content/css/styles.css" rel="stylesheet" />
-    <script src="~/lib/bootstrap/Content/vendor/jquery/scripts.js"></script>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -87,6 +81,13 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/dist/js/paraia_multi_select.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+<script>
+    $("#LogOffBtn").click(function () {
+        $("#LogoffForm").submit();
+    });
+</script>

@@ -12,7 +12,6 @@ D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\YallaKora.API.deps.
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\YallaKora.API.runtimeconfig.json
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\YallaKora.API.runtimeconfig.dev.json
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\YallaKora.API.dll
-D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\ref\YallaKora.API.dll
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\YallaKora.API.pdb
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\Crypto.dll
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
@@ -26,7 +25,6 @@ D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\System.Runtime.Comp
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\DTOs.dll
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\DTOs.pdb
 D:\My work\Projects\Solution1\YallaKora.API\obj\Debug\net5.0\staticwebassets\YallaKora.API.StaticWebAssets.Manifest.cache
-D:\My work\Projects\Solution1\YallaKora.API\obj\Debug\net5.0\staticwebassets\YallaKora.API.StaticWebAssets.xml
 D:\My work\Projects\Solution1\YallaKora.API\obj\Debug\net5.0\scopedcss\bundle\YallaKora.API.styles.css
 D:\My work\Projects\Solution1\YallaKora.API\obj\Debug\net5.0\YallaKora.API.RazorTargetAssemblyInfo.cache
 D:\My work\Projects\Solution1\YallaKora.API\obj\Debug\net5.0\YallaKora.API.csproj.CopyComplete
@@ -68,3 +66,5 @@ D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\runtimes\win\lib\ne
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\AutoMapper.dll
 D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\My work\Projects\Solution1\YallaKora.API\bin\Debug\net5.0\ref\YallaKora.API.dll
+D:\My work\Projects\Solution1\YallaKora.API\obj\Debug\net5.0\staticwebassets\YallaKora.API.StaticWebAssets.xml

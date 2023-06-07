@@ -28,7 +28,7 @@ namespace YallaKora.API.Controllers
             _teamTourRepository = teamTournamentRepository;
         }
         [HttpGet("FilterTeams")]
-        public IActionResult FilterTeams([FromBody]SearchTerms search)
+        public IActionResult FilterTeams([FromBody] SearchTerms search)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace YallaKora.API.Controllers
                 throw;
             }
         }
-        [HttpGet("GetTeam/{Id}")]
+        [HttpGet("{Id}", Name = "GetTeam")]
         public IActionResult GetTeam(int Id)
         {
             if (Id <= 0)
@@ -77,17 +77,22 @@ namespace YallaKora.API.Controllers
 
             return Ok(TeamsDto);
         }
-        [HttpGet("EditTeam")]
-        public IActionResult EditTeam(TeamDto teamDto)
+        [HttpPatch("{Id:int}", Name = "EditTeam")]
+        public IActionResult EditTeam(int Id, [FromBody]TeamDto teamDto)
         {
             if (teamDto == null)
             {
                 return NotFound();
             }
 
-            var team = _Mapper.Map<TeamDto>(teamDto);
+            var team = _Mapper.Map<Team>(teamDto);
+            if (!_TeamRepository.UpdateTeam(team))
+            {
+                ModelState.AddModelError("", $"Something went wrong on Updating {team.TeamName}");
+                return StatusCode(500, ModelState);
+            }
 
-            return Ok(team);
+            return NoContent();
         }
         [HttpPost("CreateTeam")]
         public IActionResult CreateTeam([FromBody] TeamDto teamDto)
@@ -102,16 +107,87 @@ namespace YallaKora.API.Controllers
 
             var team = _Mapper.Map<Team>(teamDto);
             Tournament tr = _tourRepository.GetTournament(teamDto.TournamentId);
-            TournamentsTeam tournamentsTeam = new TournamentsTeam();
-            tournamentsTeam.TournamentId = tr.TournamentId;
-            tournamentsTeam.TeamId = _TeamRepository.GetTeam(teamDto.TeamName).TeamId;
-            _teamTourRepository.Creat(tournamentsTeam);
-            if (!_TeamRepository.CreateTeam(team))
+            if (team != null)
+            {
+                if (!_TeamRepository.CreateTeam(team))
+                {
+                    ModelState.AddModelError("", $"Something went wrong on saving {team.TeamName}");
+                    return StatusCode(500, ModelState);
+                }
+            }
+            else
             {
                 ModelState.AddModelError("", $"Something went wrong on saving {team.TeamName}");
                 return StatusCode(500, ModelState);
             }
-            return CreatedAtRoute("GetTeam" , new {TeamId = team.TeamId });
+            TournamentsTeam tournamentsTeam = new TournamentsTeam();
+            tournamentsTeam.TournamentId = tr.TournamentId;
+            var obj = _TeamRepository.GetTeam(teamDto.TeamName);
+            tournamentsTeam.TeamId = obj.TeamId;
+            if (!_teamTourRepository.Creat(tournamentsTeam))
+            {
+                _TeamRepository.DeleteTeam(team);
+                ModelState.AddModelError("", $"Something went wrong on saving {team.TeamName}");
+                return StatusCode(500, ModelState);
+            }
+
+            var link = Url.Link("GetTeam", new { Id = team.TeamId });
+            return Created(link,null);
+
+        }
+
+        [HttpDelete("{Id:int}", Name = "DeleteTeam")]
+        public IActionResult DeleteTeam(int Id)
+        {
+            var team = new Team();
+            if (Id > 0)
+              team = _TeamRepository.GetTeam(Id);
+
+            if (team != null)
+            {
+             if (!_TeamRepository.DeleteTeam(team))
+                   return NotFound();
+            }
+            else
+            {
+                ModelState.AddModelError("", $"{team.TeamName} Team Not Found");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpGet("GetTeamsByTournamentId/{Id}")]
+        public IActionResult GetTeamsByTournamentId(int Id)
+        {
+            var teams = new List<Team>();
+            var teamsDto = new List<TeamDto>();
+            if(Id > 0)
+                teams = _TeamRepository.GetTeamsByTournamentId(Id);
+
+            if (teams != null && teams.Count() > 0)
+            {
+                foreach (var team in teams)
+                    teamsDto.Add(_Mapper.Map<TeamDto>(team));
+            }
+
+            return Ok(teamsDto);
+        }
+        [HttpGet("GetAvailableTeamsBasedOnTournamentId/{Id}")]
+        public IActionResult GetAvailableTeamsBasedOnTournamentId(int Id)
+        {
+            var teams = new List<Team>();
+            var teamsDto = new List<TeamDto>();
+            if(Id > 0)
+                teams = _TeamRepository.GetAvailableTeamsBasedOnTournamentId(Id);
+
+            if (teams != null && teams.Count() > 0)
+            {
+                foreach (var team in teams)
+                    teamsDto.Add(_Mapper.Map<TeamDto>(team));
+            }
+
+            return Ok(teamsDto);
         }
     }
 }

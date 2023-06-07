@@ -40,7 +40,7 @@ namespace YallaKora.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddDbContext<YallaKoraSystemDbContext>
+            services.AddDbContext<YallaKoraSystemContext>
                (Options =>
                Options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -49,6 +49,7 @@ namespace YallaKora.API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITeamsRepository, TeamRepository>();
             services.AddScoped<ITournmentRepository, TournmentRepository>();
+            services.AddScoped<ITeamTournamentRepository, TeamTournamentRepository>();
 
             services.AddScoped<IClientManager, ClientManager>();
 
@@ -77,11 +78,22 @@ namespace YallaKora.API
                 };
 
             });
+            //services.AddSession(options =>
+            //{
+            //    options.IdleTimeout = TimeSpan.FromSeconds(10);
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.IsEssential = true;
+            //});
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "YallaKora.API", Version = "v1" });
+            });
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = int.MaxValue; //2gb
             });
         }
 

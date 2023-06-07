@@ -17,6 +17,8 @@ namespace YallaKora.API.Repository.IRepository
         bool CreateTournament(Tournament tournament);
         bool UpdateTournament(Tournament tournament);
         bool DeleteTournament(Tournament tournament);
+        bool AddTournamentGalary(TournamentGalary tournamentGalary);
+        TournamentGalary GetGallaryPhotos(int TournamentId);
         bool Save();
     }
 }

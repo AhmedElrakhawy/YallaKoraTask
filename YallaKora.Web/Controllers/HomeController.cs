@@ -15,6 +15,7 @@ using YallaKora.Web.Settings;
 using Microsoft.Extensions.Configuration;
 using YallaKora.Web.Filters;
 using Microsoft.AspNetCore.Authorization;
+using YallaKora.Web.VM;
 
 namespace YallaKora.Web.Controllers
 {
@@ -23,15 +24,24 @@ namespace YallaKora.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IAccountRepository _AccountRepository;
-        public HomeController(ILogger<HomeController> logger, IAccountRepository accountRepository ) 
+        private readonly ITeamsRepository _TR;
+        private readonly ITournamentsRepository _TourRepository;
+        public HomeController(ILogger<HomeController> logger, IAccountRepository accountRepository , ITeamsRepository teamsRepository , ITournamentsRepository tournamentsRepository) 
         {
             _logger = logger;
             _AccountRepository = accountRepository;
+            _TR = teamsRepository;
+            _TourRepository = tournamentsRepository;
         }
-        [Authorize(Roles = "Admin")]
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            var Model = new HomeIndexVM();
+            var Tournaments = await _TourRepository.GetAllAsync(SD.TournamentsApiPath + "GetAllTournaments", "");
+            var Teams = await _TR.GetAllAsync(SD.TeamsApiPath + "GetAllTeams", "");
+            Model.TeamsCount = Teams.Count();
+            Model.TournamentsCount = Tournaments.Count();
+
+            return View(Model);
         }
 
         [HttpGet]
@@ -56,6 +66,13 @@ namespace YallaKora.Web.Controllers
             HttpContext.Session.SetString("JwtToken", UserObj.Token);
             TempData["alert"] = "Welcome " + UserObj.Email;
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            HttpContext.Session.SetString("JwtToken", "");
+            return RedirectToAction("Login");
         }
     }
 }

@@ -1,0 +1,104 @@
+﻿
+
+<div class="modal-header">
+    <h5 class="modal-title">Create Tournament</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form method="post" id="CreateData">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="TeamName">
+                Title
+            </label>
+            <input class="form-control" name="TournamentName" />
+        </div>
+
+        <div class="form-group">
+            <label for="Description">
+                Description
+            </label>
+            <input class="form-control" name="Description" />
+        </div>
+
+        <div class="form-group">
+            <label for="WebSiteURL">
+                Tournament Video URL
+            </label>
+            <input class="form-control" name="TournamentVideo" />
+        </div>
+
+        <div class="form-group">
+            <label for="Logo">
+                Logo
+            </label>
+            <input id="TeamPicture" type="file" class="form-control" name="Logo" />
+            <div id="PicturesArea" class="mt-2"></div>
+            <input type="hidden" name="Logo" id="PictureID" value="" />
+        </div>
+        <div class="form-group bg-danger" style="display:none" id="ErorrForm"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id="saveBtn">Create</button>
+    </div>
+</form>
+
+<script>
+
+    $("#saveBtn").click(function () {
+        debugger;
+        var DataIDs = [];
+        $("#PicturesArea .image").each(function () {
+            var ImageID = $(this).attr("data-id");
+            DataIDs.push(ImageID);
+        });
+        $("#PictureIDs").val(DataIDs.join());
+        $.ajax({
+            type: "Post",
+            url: "@Url.Action("CreateTournament" , "Tournament")",
+            data: $("#CreateData").serialize()
+        }).done(function (response) {
+            debugger;
+            if (response) {
+                $("#FormModal").modal('toggle');
+                ReloadTable();
+            }
+            else {
+                $("#ErorrForm").html(response.Error);
+                $("#ErorrForm").show();
+            }
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+
+
+    $("#TeamPicture").change(function () {
+        debugger;
+        var Pictures = this;
+        var PicData = new FormData();
+        var totalfile = Pictures.files.length;
+        for (var i = 0; i < totalfile; i++) {
+            PicData.append("Picture", Pictures.files[i]);
+        }
+        $.ajax({
+            type: "Post",
+            url: "@Url.Action("UploadPictures","Shared")",
+            data: PicData,
+            dataType: "json",
+            contentType: false,
+            processData: false
+        }).done(function (responses) {
+            debugger;
+            var Total = responses.length;
+            for (var i = 0; i < Total; i++) {
+                var picResponse = responses[i];
+                AttachNewImage(picResponse);
+            }
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Fail");
+        });
+    });
+</script>

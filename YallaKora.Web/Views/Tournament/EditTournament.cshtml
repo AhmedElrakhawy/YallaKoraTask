@@ -1,0 +1,111 @@
+﻿@using DTOs.ApplicationDtos
+@model TournamentDto
+
+<div class="modal-header">
+    <h5 class="modal-title">Edit Auction</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form method="post" id="editForm">
+    <div class="modal-body">
+        <input type="hidden" name="TournamentId" value="@Model.TournamentId" />
+        <div class="form-group">
+            <label for="TeamName">
+                Team Name
+            </label>
+            <input class="form-control" name="TournamentName" value="@Model.TournamentName" />
+        </div>
+
+       
+        <div class="form-group">
+            <label for="Description">
+                Description
+            </label>
+            <input class="form-control" name="Description" value="@Model.Description" />
+        </div>
+
+        <div class="form-group">
+            <label for="TournamentVideo">
+                Tournament Video Url
+            </label>
+            <input class="form-control" name="TournamentVideo" value="@Model.TournamentVideo" />
+        </div>
+
+        <div class="form-group">
+            <label for="Logo">
+                Logo
+            </label>
+            <input id="TeamPicture" type="file" class="form-control" name="Logo" />
+            <div id="PicturesArea" class="mt-2">
+                <input type="hidden" class="Imageurl" value="@Model.Logo" />
+                <img class="image img-thumbnail" src="@Model.Logo" style="width:200px;height:200px;" />
+            </div>
+            <input type="hidden" name="Logo" id="PictureID" value="@Model.Logo" />
+        </div>
+        <div class="form-group bg-danger" style="display:none" id="ErorrForm"></div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id="saveBtn">Save</button>
+    </div>
+</form>
+
+
+<script>
+
+    RemoveImagesOnClick();
+
+    $("#saveBtn").click(function () {
+        debugger;
+        var DataIDs = [];
+        $("#PicturesArea .image").each(function () {
+            var ImageID = $(this).attr("data-id");
+            DataIDs.push(ImageID);
+        });
+        $("#PictureIDs").val(DataIDs.join());
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("EditTournament","Tournament")',
+            data: $("#editForm").serialize()
+        }).done(function (response) {
+            if (response) {
+                $("#FormModal").modal('toggle');
+                ReloadTable();
+            }
+            else {
+                $("#ErorrForm").html(response.Error);
+                $("#ErorrForm").show();
+            }
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+    $("#TeamPicture").change(function () {
+        debugger;
+        var Pictures = this;
+        var PicData = new FormData();
+        var totalfile = Pictures.files.length;
+        for (var i = 0; i < totalfile; i++) {
+            PicData.append("Picture", Pictures.files[i]);
+        }
+        $.ajax({
+            type: "Post",
+            url: "@Url.Action("UploadPictures","Shared")",
+            data: PicData,
+            dataType: "json",
+            contentType: false,
+            processData: false
+        }).done(function (responses) {
+            debugger;
+            var Total = responses.length;
+            for (var i = 0; i < Total; i++) {
+                var picResponse = responses[i];
+                AttachNewImage(picResponse);
+            }
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Fail");
+        });
+    });
+</script>

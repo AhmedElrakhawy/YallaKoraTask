@@ -1,6 +1,6 @@
 USE [YallaKoraSystem]
 GO
-/****** Object:  Table [dbo].[Player]    Script Date: 6/2/2023 11:05:24 PM ******/
+/****** Object:  Table [dbo].[Player]    Script Date: 6/7/2023 7:50:15 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16,7 +16,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Roles]    Script Date: 6/2/2023 11:05:25 PM ******/
+/****** Object:  Table [dbo].[Roles]    Script Date: 6/7/2023 7:50:15 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -30,7 +30,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Team]    Script Date: 6/2/2023 11:05:25 PM ******/
+/****** Object:  Table [dbo].[Team]    Script Date: 6/7/2023 7:50:15 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -48,7 +48,24 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tournaments]    Script Date: 6/2/2023 11:05:25 PM ******/
+/****** Object:  Table [dbo].[TournamentGalary]    Script Date: 6/7/2023 7:50:15 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TournamentGalary](
+	[TournamentGalaryId] [int] IDENTITY(1,1) NOT NULL,
+	[Image1] [nvarchar](100) NULL,
+	[Image2] [nvarchar](100) NULL,
+	[Image3] [nvarchar](100) NULL,
+	[TournamentId] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TournamentGalaryId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tournaments]    Script Date: 6/7/2023 7:50:15 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -65,7 +82,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tournaments_Teams]    Script Date: 6/2/2023 11:05:25 PM ******/
+/****** Object:  Table [dbo].[Tournaments_Teams]    Script Date: 6/7/2023 7:50:15 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -80,7 +97,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserMaster]    Script Date: 6/2/2023 11:05:25 PM ******/
+/****** Object:  Table [dbo].[UserMaster]    Script Date: 6/7/2023 7:50:15 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -97,8 +114,129 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+SET IDENTITY_INSERT [dbo].[Roles] ON 
+GO
+INSERT [dbo].[Roles] ([RoleId], [RoleName]) VALUES (1, N'Admin')
+GO
+INSERT [dbo].[Roles] ([RoleId], [RoleName]) VALUES (2, N'User')
+GO
+SET IDENTITY_INSERT [dbo].[Roles] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Team] ON 
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (1, N'Liverpool', N'Best Team ever', N'Liverpool.com', NULL, N'1892')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (2, N'Arsenal', N'Good Team', N'Arsenal.com', N'Images/1e9534b1-ea53-40af-9ae2-479209e0ec95.jpg', N'07/06/1899')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (3, N'ManCity', N'Money Team', N'ManCity.com', N'Images/0fa1d706-cf56-47f3-a1f0-db63eca33676.jpg', N'03/12/2009')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (4, N'ManUnited', N'7 Team', N'Man7.com', N'Images/05b0a883-6979-4de4-877e-e14a4fc7696a.jpg', N'07/18/1895')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (7, N'West Ham', N'Poor Team', N'WestHame.com', N'Images/1b4d3af1-d36f-456f-bda3-bde2ada303f9.jpg', N'12/14/1900')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (8, N'Burnely', N'Poor Team', N'Burnely.com', N'Images/1b4d3af1-d36f-456f-bda3-bde2ada303f9.jpg', N'12/14/1900')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (9, N'Wegan', N'Wegan', N'Wegan.com', N'Images/da97bee2-d141-4c9f-afdb-fca293506b76.jpg', N'01/15/2019')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (10, N'Aston Villa', N'Middle Team', N'AstonVilla.com', N'Images/d3c6d51a-d543-4f8f-86d1-d65d57a9f6a2.jpg', N'06/14/1989')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (11, N'NewCasle', N'NewCastle', N'NewCastle.com', N'Images/e57ce663-fa3e-4285-afaf-c2469e492dd3.jpg', N'06/16/2023')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (12, N'Brigton', N'BrigtonBrigton', N'Brigton.com', N'Images/9def7d38-6fd7-4bf3-b6de-9b08024c3143.jpg', N'07/06/1989')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (13, N'SunderLand', N'SunderLandSunderLand', N'SunderLand.com', NULL, N'06/08/2023')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (14, N'newTeam', N'newTeamnewTeam', N'newTeam.com', NULL, N'06/08/2023')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (15, N'Team', N'newTeam', N'newTeam.com', NULL, N'06/08/2023')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (16, N'team2', N'team2', N'team2.com', NULL, N'07/12/1894')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (17, N'team3', N'team2', N'team2.com', NULL, N'07/12/1894')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (18, N'team4', N'team2', N'team2.com', NULL, N'07/12/1894')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (19, N'team5', N'team2', N'team2.com', NULL, N'07/12/1894')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (20, N'team6', N'team5', N'team5.com', NULL, N'06/08/2023')
+GO
+INSERT [dbo].[Team] ([TeamId], [TeamName], [Description], [WebsiteURL], [Logo], [FoundationDate]) VALUES (21, N'team7', N'New One', N'team5.com', N'Images/141f4391-5394-40f8-b1df-76b60002579f.jpg', N'06/08/2023')
+GO
+SET IDENTITY_INSERT [dbo].[Team] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TournamentGalary] ON 
+GO
+INSERT [dbo].[TournamentGalary] ([TournamentGalaryId], [Image1], [Image2], [Image3], [TournamentId]) VALUES (1, N'Images/eda075ae-bf6b-475e-b6ca-c2ee78ea6fea.jpg', N'Images/987e954c-c5fa-4da1-8abc-486dca4dd398.jpg', N'Images/fe636b30-a46f-4ca5-9805-32a19897c489.jpg', 1)
+GO
+INSERT [dbo].[TournamentGalary] ([TournamentGalaryId], [Image1], [Image2], [Image3], [TournamentId]) VALUES (2, N'Images/edfeed8c-4007-4d9f-b5ce-8b83cebb1448.jpg', N'Images/d355d5f1-619a-486c-b1fe-1f892774e921.jpg', N'Images/84f1fb03-5f5b-4867-8e21-1b0256b683ff.jpg', 4)
+GO
+INSERT [dbo].[TournamentGalary] ([TournamentGalaryId], [Image1], [Image2], [Image3], [TournamentId]) VALUES (3, N'Images/edfeed8c-4007-4d9f-b5ce-8b83cebb1448.jpg', N'Images/d355d5f1-619a-486c-b1fe-1f892774e921.jpg', N'Images/84f1fb03-5f5b-4867-8e21-1b0256b683ff.jpg', 4)
+GO
+SET IDENTITY_INSERT [dbo].[TournamentGalary] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Tournaments] ON 
+GO
+INSERT [dbo].[Tournaments] ([TournamentId], [TournamentName], [Description], [TournamentVideo], [Logo]) VALUES (1, N'Primier League', N'Best League ever', NULL, NULL)
+GO
+INSERT [dbo].[Tournaments] ([TournamentId], [TournamentName], [Description], [TournamentVideo], [Logo]) VALUES (3, N'LaLiga', N'Spanish League', N'https://www.youtube.com/watch?v=6V1DhI7asBc', N'Images/d3ddf5af-7a08-4516-a572-9da2fa886bd4.png')
+GO
+INSERT [dbo].[Tournaments] ([TournamentId], [TournamentName], [Description], [TournamentVideo], [Logo]) VALUES (4, N'Italian League', N'Italian League', NULL, N'Images/13c948ee-aa68-4c4b-8999-c5d64ef1b2c1.jpg')
+GO
+INSERT [dbo].[Tournaments] ([TournamentId], [TournamentName], [Description], [TournamentVideo], [Logo]) VALUES (5, N'France League', N'France League', NULL, N'Images/bdb3183e-4df4-4c6c-bc8a-e8edf45c1fbe.jpg')
+GO
+INSERT [dbo].[Tournaments] ([TournamentId], [TournamentName], [Description], [TournamentVideo], [Logo]) VALUES (7, N'German League', N'German League', NULL, N'Images/2efeca30-e6ce-465a-a549-b7cb60cf1156.jpg')
+GO
+INSERT [dbo].[Tournaments] ([TournamentId], [TournamentName], [Description], [TournamentVideo], [Logo]) VALUES (8, NULL, NULL, NULL, N'Images/d0ab8b77-fc7d-48c3-88c4-e2aef830e034.jpg')
+GO
+SET IDENTITY_INSERT [dbo].[Tournaments] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Tournaments_Teams] ON 
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (1, 1, 14)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (2, 1, 15)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (3, 1, 16)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (4, 1, 17)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (5, 1, 18)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (6, 1, 19)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (7, 1, 20)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (8, 1, 21)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (10, 1, 16)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (11, 1, 20)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (12, 1, 1)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (14, 3, 14)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (15, 3, 20)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (16, 3, 21)
+GO
+INSERT [dbo].[Tournaments_Teams] ([Tournaments_TeamsId], [TournamentId], [TeamId]) VALUES (17, 3, 16)
+GO
+SET IDENTITY_INSERT [dbo].[Tournaments_Teams] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserMaster] ON 
+GO
+INSERT [dbo].[UserMaster] ([UserId], [UserName], [Email], [Password], [RoleId]) VALUES (1, N'Ahmed', N'Elrakhawy@gmail.com', N'1234567890', 1)
+GO
+INSERT [dbo].[UserMaster] ([UserId], [UserName], [Email], [Password], [RoleId]) VALUES (2, N'Mohamed', N'Mohamed@gmail.com', N'1234567890', 2)
+GO
+SET IDENTITY_INSERT [dbo].[UserMaster] OFF
+GO
 ALTER TABLE [dbo].[Player]  WITH CHECK ADD FOREIGN KEY([TeamId])
 REFERENCES [dbo].[Team] ([TeamId])
+GO
+ALTER TABLE [dbo].[TournamentGalary]  WITH CHECK ADD FOREIGN KEY([TournamentId])
+REFERENCES [dbo].[Tournaments] ([TournamentId])
 GO
 ALTER TABLE [dbo].[Tournaments_Teams]  WITH CHECK ADD FOREIGN KEY([TeamId])
 REFERENCES [dbo].[Team] ([TeamId])

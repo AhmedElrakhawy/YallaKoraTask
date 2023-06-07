@@ -49,12 +49,14 @@ namespace YallaKora.Web.Repository
         {
             var Request = new HttpRequestMessage(HttpMethod.Delete, Url + Id);
             var Client = _ClientFactory.CreateClient();
-            if (token != null && token.Length > 0)
-            {
-                Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                var APIToken = _Config.GetSection("AppToken:Token").Value;
-                Request.Headers.Add("Api-Key-Auth", APIToken);
-            }
+            //if (token != null && token.Length > 0)
+            //{
+
+            //}
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var APIToken = _Config.GetSection("AppToken:Token").Value;
+            Request.Headers.Add("Api-Key-Auth", APIToken);
+
             var Response = await Client.SendAsync(Request);
             if (Response.StatusCode == HttpStatusCode.NoContent)
             {
@@ -111,6 +113,52 @@ namespace YallaKora.Web.Repository
                 return null;
             }
 
+        }
+
+        public async Task<List<T>> GetAvailableTeamsBasedOnTournamentId(string Url, int Id, string token)
+        {
+            var Request = new HttpRequestMessage(HttpMethod.Get, Url + Id);
+            var Client = _ClientFactory.CreateClient();
+            //if (token != null && token.Length > 0)
+            //{
+
+            //}
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var APIToken = _Config.GetSection("AppToken:Token").Value;
+            Request.Headers.Add("Api-Key-Auth", APIToken);
+            var Response = await Client.SendAsync(Request);
+            if (Response.StatusCode == HttpStatusCode.OK)
+            {
+                var JsonString = await Response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<T>>(JsonString);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<T>> GetTeamsByTournamentId(string Url, int Id, string token)
+        {
+            var Request = new HttpRequestMessage(HttpMethod.Get, Url + Id);
+            var Client = _ClientFactory.CreateClient();
+            //if (token != null && token.Length > 0)
+            //{
+
+            //}
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var APIToken = _Config.GetSection("AppToken:Token").Value;
+            Request.Headers.Add("Api-Key-Auth", APIToken);
+            var Response = await Client.SendAsync(Request);
+            if (Response.StatusCode == HttpStatusCode.OK)
+            {
+                var JsonString = await Response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<T>>(JsonString);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<bool> UpdateAsync(string Url, T ObjToUpdate, string token = "")

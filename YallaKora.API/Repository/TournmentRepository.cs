@@ -10,11 +10,31 @@ namespace YallaKora.API.Repository
 {
     public class TournmentRepository : ITournmentRepository
     {
-        private readonly YallaKoraSystemDbContext _DB;
-        public TournmentRepository(YallaKoraSystemDbContext DB)
+        private readonly YallaKoraSystemContext _DB;
+        public TournmentRepository(YallaKoraSystemContext DB)
         {
             _DB = DB;
         }
+
+        public bool AddTournamentGalary(TournamentGalary TG)
+        {
+            try
+            {
+                if (TG == null)
+                    return false;
+                else
+                    _DB.TournamentGalaries.Add(TG);
+
+                return Save();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public bool CreateTournament(Tournament tournament)
         {
             try
@@ -41,7 +61,12 @@ namespace YallaKora.API.Repository
                 if (tournament == null)
                     return false;
                 else
+                {
+                    var teamtour = _DB.TournamentsTeams.Where(t => t.TournamentId == tournament.TournamentId);
+                    if (teamtour != null)
+                        _DB.TournamentsTeams.RemoveRange(teamtour);
                     _DB.Tournaments.Remove(tournament);
+                }
 
                 return Save();
             }
@@ -78,6 +103,20 @@ namespace YallaKora.API.Repository
             try
             {
                 return _DB.Tournaments.ToList();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public TournamentGalary GetGallaryPhotos(int TournamentId)
+        {
+            try
+            {
+                return _DB.TournamentGalaries.Where(x => x.TournamentId == TournamentId).FirstOrDefault();
 
             }
             catch (Exception)
@@ -162,4 +201,4 @@ namespace YallaKora.API.Repository
             }
         }
     }
-}
+ }

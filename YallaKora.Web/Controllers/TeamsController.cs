@@ -14,7 +14,7 @@ using YallaKora.Web.VM;
 namespace YallaKora.Web.Controllers
 {
     [ServiceFilter(typeof(CustomFilter))]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class TeamsController : Controller
     {
         private readonly ITeamsRepository _TR;
@@ -25,6 +25,7 @@ namespace YallaKora.Web.Controllers
             _TR = TR;
             _TourR = TourR;
         }
+        [Authorize(Roles ="Admin")]
 
         public async Task<IActionResult> Index(int? TourId, int? PageNum, string Search)
         {
@@ -40,6 +41,8 @@ namespace YallaKora.Web.Controllers
             Model.Search.PageNum = PageNum;
 
             Model.Teams = await _TR.FilterTeams(SD.TeamsApiPath + "FilterTeams", Model.Search, token);
+
+
             Model.Tournaments = await _TourR.GetAllAsync(SD.TournamentsApiPath + "GetAllTournaments", token);
             var Teams = await _TR.GetAllAsync(SD.TeamsApiPath + "GetAllTeams", token);
             var TeamCount = Teams.Count();
@@ -52,6 +55,9 @@ namespace YallaKora.Web.Controllers
             }
             return View(Model);
         }
+
+
+
         [HttpGet("CreateTeam")]
         public async Task<IActionResult> CreateTeam()
         {
@@ -84,7 +90,7 @@ namespace YallaKora.Web.Controllers
         {
             var token = HttpContext.Session.GetString("JwtToken");
             var Model = new CreateTeamVM();
-            var team = await _TR.GetAsync(SD.TeamsApiPath +"GetTeam/", Id, token);
+            var team = await _TR.GetAsync(SD.TeamsApiPath, Id, token);
             if (team != null)
             {
                 Model.TeamId = team.TeamId;
@@ -107,7 +113,25 @@ namespace YallaKora.Web.Controllers
             try
             {
                 var token = HttpContext.Session.GetString("JwtToken");
-                var result = await _TR.UpdateAsync(SD.TeamsApiPath + "EditTeam", team, token);
+                var result = await _TR.UpdateAsync(SD.TeamsApiPath + team.TeamId, team, token);
+
+                return Json(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        [HttpGet("DeleteTeam")]
+        public async Task<JsonResult> DeleteTeam(int Id)
+        {
+            try
+            {
+                var token = HttpContext.Session.GetString("JwtToken");
+                var result = await _TR.DeleteAsync(SD.TeamsApiPath , Id, token);
 
                 return Json(result);
             }

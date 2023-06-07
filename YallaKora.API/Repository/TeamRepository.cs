@@ -11,8 +11,8 @@ namespace YallaKora.API.Repository
 {
     public class TeamRepository : ITeamsRepository
     {
-        private readonly YallaKoraSystemDbContext _DB;
-        public TeamRepository(YallaKoraSystemDbContext DB)
+        private readonly YallaKoraSystemContext _DB;
+        public TeamRepository(YallaKoraSystemContext DB)
         {
             _DB = DB;
         }
@@ -43,7 +43,13 @@ namespace YallaKora.API.Repository
                 if (team == null)
                     return false;
                 else
+                {
+                    var teamtour = _DB.TournamentsTeams.Where(t => t.TeamId == team.TeamId);
+                    if (teamtour != null)
+                        _DB.TournamentsTeams.RemoveRange(teamtour);
+
                     _DB.Teams.Remove(team);
+                }
 
                 return Save();
             }
@@ -86,8 +92,38 @@ namespace YallaKora.API.Repository
         {
             try
             {
-               return _DB.Teams.ToList();
+                return _DB.Teams.Include(x => x.TournamentsTeams).ToList();
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<Team> GetAvailableTeamsBasedOnTournamentId(int Id)
+        {
+            try
+            {
+                var TeamsList = new List<Team>();
+                if (Id > 0)
+                {
+                    var TeamsIds = _DB.TournamentsTeams.Where(a => a.TournamentId != Id).Select(x => x.TeamId).ToList();
+
+                    if (TeamsIds != null && TeamsIds.Count() > 0)
+                    {
+                        foreach (var item in TeamsIds)
+                        {
+                            TeamsList.Add(_DB.Teams.FirstOrDefault(x => x.TeamId == item));
+                        }
+                    }
+                    if (TeamsList.Count() > 0)
+                    {
+                        return TeamsList;
+                    }
+                }
+                return null;
             }
             catch (Exception)
             {
@@ -117,10 +153,40 @@ namespace YallaKora.API.Repository
         {
             try
             {
-                if (Name != null)
+                if (string.IsNullOrEmpty(Name))
                     return null;
                 else
-                    return _DB.Teams.FirstOrDefault(x => x.TeamName == Name);
+                    return _DB.Teams.Include(x => x.TournamentsTeams).FirstOrDefault(x => x.TeamName == Name);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<Team> GetTeamsByTournamentId(int Id)
+        {
+            try
+            {
+                var TeamsList = new List<Team>();
+                if (Id > 0)
+                {
+                    var TeamsIds = _DB.TournamentsTeams.Where(a => a.TournamentId == Id).Select(x => x.TeamId).ToList();
+
+                    if (TeamsIds != null && TeamsIds.Count() > 0)
+                    {
+                        foreach (var item in TeamsIds)
+                        {
+                            TeamsList.Add(_DB.Teams.FirstOrDefault(x => x.TeamId == item));
+                        }
+                    }
+                    if (TeamsList.Count() > 0)
+                    {
+                        return TeamsList;
+                    }
+                }
+                return null;
             }
             catch (Exception)
             {

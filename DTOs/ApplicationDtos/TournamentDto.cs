@@ -13,5 +13,6 @@ namespace DTOs.ApplicationDtos
         public string Description { get; set; }
         public string TournamentVideo { get; set; }
         public string Logo { get; set; }
+        public int[] TeamsIds { get; set; }
     }
 }

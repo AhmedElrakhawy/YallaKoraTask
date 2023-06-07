@@ -1,8 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using YallaKora.Web.VM
+@model HomeIndexVM
+
+@{
+    ViewBag.Title = "Index";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Hello, @User.Identity.Name!</h1>
+        <p class="lead">Welcome to Yall Kora , Below are a few demographics of The WebSite</p>
+    </div>
 </div>
+
+
+@if (User.IsInRole("Admin"))
+{
+<div class="card-columns  text-primary">
+    <div class="card border-primary text-center">
+        <h1 class="card-title display-2 align-middle">@Model.TeamsCount</h1>
+        <div class="card-footer display-4">
+            <a href="#">Teams</a>
+        </div>
+    </div>
+
+    <div class="card border-primary text-center">
+        <h1 class="card-title display-2 align-middle">@Model.TournamentsCount</h1>
+        <div class="card-footer display-4">
+            <a href="#">Tournaments</a>
+        </div>
+    </div>
+</div>
+}
+
+
+

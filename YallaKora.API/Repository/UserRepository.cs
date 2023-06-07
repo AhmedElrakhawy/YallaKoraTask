@@ -14,9 +14,9 @@ namespace YallaKora.API.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly YallaKoraSystemDbContext _Db;
+        private readonly YallaKoraSystemContext _Db;
         private readonly AppSettings _appsetting;
-        public UserRepository(YallaKoraSystemDbContext Db, IOptions<AppSettings> appsettings)
+        public UserRepository(YallaKoraSystemContext Db, IOptions<AppSettings> appsettings)
         {
             _Db = Db;
             _appsetting = appsettings.Value;

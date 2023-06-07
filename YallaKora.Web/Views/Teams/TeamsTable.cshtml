@@ -104,7 +104,8 @@
             url: "@Url.Action("Index","Teams")",
             data: {
                 Search: $("#SearchBox").val(),
-                TourId: $("#TournamentId option:selected").attr("data-ID")
+                TourId: $("#TournamentId option:selected").attr("data-ID"),
+                PageNum: document.getElementsByClassName("page-item active")[0].firstChild.innerHTML
             }
         }).done(function (response) {
             $("#tableContainer").html(response);
@@ -124,6 +125,7 @@
         });
     });
     $(".editbtn").click(function () {
+        debugger;
         $.ajax({
             type: "Get",
             url: "@Url.Action("EditTeam", "Teams")",
@@ -131,8 +133,9 @@
                 Id: $(this).attr('data-ID')
             }
         }).done(function (response) {
+            debugger;
             $("#actionContainer").html(response);
-            $("#FormModal").modal('toggle');
+            //$("#FormModal").modal('toggle');
         }).fail(function (XMLHttpRequest, testStatus, erorrThrown) {
             alert("FAIL");
         })

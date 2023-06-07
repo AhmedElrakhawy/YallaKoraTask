@@ -15,5 +15,6 @@ namespace DTOs.ApplicationDtos
         public string Logo { get; set; }
         public string FoundationDate { get; set; }
         public int TournamentId { get; set; }
+        public List<TournamentsTeamsDto> TournamentsTeamsDtos { get; set; }
     }
 }

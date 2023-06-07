@@ -2,7 +2,6 @@ D:\My work\Projects\Solution1\DTOs\bin\Debug\net5.0\DTOs.deps.json
 D:\My work\Projects\Solution1\DTOs\bin\Debug\net5.0\DTOs.dll
 D:\My work\Projects\Solution1\DTOs\bin\Debug\net5.0\ref\DTOs.dll
 D:\My work\Projects\Solution1\DTOs\bin\Debug\net5.0\DTOs.pdb
-D:\My work\Projects\Solution1\DTOs\obj\Debug\net5.0\DTOs.csproj.AssemblyReference.cache
 D:\My work\Projects\Solution1\DTOs\obj\Debug\net5.0\DTOs.GeneratedMSBuildEditorConfig.editorconfig
 D:\My work\Projects\Solution1\DTOs\obj\Debug\net5.0\DTOs.AssemblyInfoInputs.cache
 D:\My work\Projects\Solution1\DTOs\obj\Debug\net5.0\DTOs.AssemblyInfo.cs
